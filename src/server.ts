@@ -3,8 +3,21 @@ import express from 'express';
 const app = express();
 const port = 3000;
 
-app.get('/api/users/:name', (request, response) => {
+const users = ['Sven', 'Michael', 'Axel', 'Daniel'];
+
+/*app.get('/api/users/:name', (request, response) => {
   response.send(request.params.name);
+});*/
+
+app.get('/api/users/:name', (request, response) => {
+  const isNameKnown = users.includes(request.params.name);
+  if (isNameKnown) {
+    response.send(request.params.name);
+  } else {
+    response.send('Error 404');
+    console.error('404');
+    response.status(404).send('Cant find that Castle');
+  }
 });
 
 app.get('/', (_req, res) => {
@@ -12,7 +25,6 @@ app.get('/', (_req, res) => {
 });
 
 app.get('/api/users', (_request, response) => {
-  const users = ['Sven', 'Michael', 'Axel'];
   response.send(users);
 });
 
